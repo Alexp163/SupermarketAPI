@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
-class OrderReadSchemas(BaseModel):
+class OrderReadSchema(BaseModel):
     id: int
     price: float
     date_order: datetime
@@ -10,11 +10,11 @@ class OrderReadSchemas(BaseModel):
     updated_at: datetime
 
 
-class OrderCreateSchemas(BaseModel):
+class OrderCreateSchema(BaseModel):
     price: float
     date_order: datetime
 
 
-class OrderUpdateSchemas(BaseModel):
+class OrderUpdateSchema(BaseModel):
     price: float
     date_order: datetime
