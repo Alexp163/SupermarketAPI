@@ -23,8 +23,10 @@ async def create_food(food: FoodCreateSchema, session=Depends(get_async_session)
 
 
 @router.get("/", status_code=status.HTTP_200_OK)  # 2) получение данных о всех продуктах
-async def get_foods(max_price: int | None = None,
-                    min_price: int | None = None,
+async def get_foods(max_price: float | None = None,
+                    min_price: float | None = None,
+                    max_balance: int | None = None,
+                    min_balance: int | None = None,
                     expiration_date: datetime | None = None,
                     session=Depends(get_async_session)) -> list[FoodReadSchema]:
     statement = select(Food)
@@ -32,6 +34,10 @@ async def get_foods(max_price: int | None = None,
         statement = statement.where(Food.price <= max_price)
     if min_price is not None:
         statement = statement.where(Food.price >= min_price)
+    if max_balance is not None:
+        statement = statement.where(Food.balance <= max_balance)
+    if min_balance is not None:
+        statement = statement.where(Food.balance >= min_balance)
     if expiration_date is not None:
         statement = statement.where(Food.expiration_date < expiration_date)
     result = await session.scalars(statement)

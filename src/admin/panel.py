@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from sqladmin import ModelView, Admin
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-from .dependencies import Food, Product, Worker, Order
+from .dependencies import Food, Product, Worker, Order, Customer, Position
 
 
 class FoodModelView(ModelView, model=Food):
@@ -21,8 +21,18 @@ class WorkerModelView(ModelView, model=Worker):
 
 
 class OrderModelView(ModelView, model=Order):
-    column_list = [Order.price, Order.date_order]
+    column_list = [Order.price, Order.date_order, Order.customer_id, Order.worker_id, Order.food_id, Order.product_id]
     form_excluded_columns = [Order.created_at, Order.updated_at]
+
+
+class CustomerModelView(ModelView, model=Customer):
+    column_list = [Customer.name, Customer.age, Customer.rating]
+    form_excluded_columns = [Customer.created_at, Customer.updated_at]
+
+
+class PositionModelView(ModelView, model=Position):
+    column_list = [Position.quantity, Position.order_id, Position.food_id, Position.product_id]
+    form_excluded_columns = [Position.created_at, Position.updated_at]
 
 
 def register_admin(app: FastAPI, engine: AsyncEngine):
@@ -31,4 +41,7 @@ def register_admin(app: FastAPI, engine: AsyncEngine):
     admin.add_view(ProductModelView)
     admin.add_view(WorkerModelView)
     admin.add_view(OrderModelView)
+    admin.add_view(CustomerModelView)
+    admin.add_view(PositionModelView)
+
 

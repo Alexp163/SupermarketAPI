@@ -5,7 +5,7 @@ from pydantic import BaseModel
 class FoodReadSchema(BaseModel):
     id: int
     name: str
-    prime: float
+    price: float
     expiration_date: datetime
     created_at: datetime
     updated_at: datetime
@@ -13,13 +13,13 @@ class FoodReadSchema(BaseModel):
 
 class FoodCreateSchema(BaseModel):
     name: str
-    prime: float
+    price: float
     expiration_date: datetime
 
 
 class FoodUpdateSchema(BaseModel):
     name: str
-    prime: float
+    price: float
     expiration_date: datetime
 
 
